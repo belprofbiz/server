@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>1. создать базу данных MYSQL</p>
+    <p>2. в ней создать таблицу с двумя колонками: А и B </p>
+    <p>3. Создать api, которое будет принимать запросы с адресом "http://loclhost:8080/"</p>
+    <div>
+        <label for="a">3. Записать в базу данных значение А при POST запросе на адрес "http://loclhost:8080/setA"</label>
+        <input type="number" id="a"> <button onclick="setA()">отправить А</button>
+    </div>
+    <div>
+        <label for="b">4. Записать в базу данных значение Б при POST запросе на адрес "http://loclhost:8080/setB"</label>
+        <input type="number" id="b"> <button onclick="setB()">отправить Б</button>
+    </div>
+    <div>
+        5. Сложить значения А и Б при GET запросе на адрес "http://loclhost:8080/summa"
+        <button onclick="summAB()">Сложить</button>
+    </div>
+    <div>
+        6. При клике на кнопку отдать нечетные значения из А и Б. Если таковых нет, прислать сообщение, что значений нет при GET запросе на адрес "http://loclhost:8080/odd-numbers".
+        <button onclick="oddNumbersAB()">Выбрать нечетные</button>
+    </div>
+
+    <script>
+        function setA () {
+            let a = document.getElementById('a').value;
+            if (!a) return;
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('POST', 'http://loclhost:8080/setA', true);
+            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState != 4) return;
+
+                if (xhr.status != 200) {
+                    alert("запрос не прошел");
+                } else {
+                    alert("Запрос обработан");
+                }
+
+            }
+            xhr.send(JSON.stringify({a}));
+        }
+        function setB () {
+            let b = document.getElementById('b').value;
+            if (!b) return;
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('POST', 'http://loclhost:8080/setB', true);
+            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState != 4) return;
+
+                if (xhr.status != 200) {
+                    alert("запрос не прошел");
+                } else {
+                    alert("Запрос обработан");
+                }
+
+            }
+            xhr.send(JSON.stringify({b}));
+        }
+        function summAB () {
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', 'http://loclhost:8080/summa', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState != 4) return;
+
+                if (xhr.status != 200) {
+                    alert("запрос не прошел");
+                } else {
+                    alert("ответ: ",xhr.responseText);
+                }
+
+            }
+            xhr.send();
+        }
+        function oddNumbersAB () {
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', 'http://loclhost:8080/odd-numbers', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState != 4) return;
+
+                if (xhr.status != 200) {
+                    alert("запрос не прошел");
+                } else {
+                    alert("ответ: ",xhr.responseText);
+                }
+
+            }
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
